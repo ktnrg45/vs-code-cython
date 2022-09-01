@@ -1,0 +1,264 @@
+---
+name: Cython
+scopeName: source.cython
+fileTypes: [pyx, pxd, pxi]
+firstLineMatch: ^#cython
+patterns:
+  - include: "#statement"
+  - include: "#expression"
+
+repository:
+  statement:
+    patterns:
+      - include: "#import"
+      - include: "#statement-keyword"
+      - include: "#class-declaration"
+      - include: "#function-declaration"
+      - include: "source.python#statement"
+
+  expression:
+    patterns:
+      - include: "#identifier"
+      - include: "#expression-base"
+      - include: "source.python#member-access"
+
+  expression-bare:
+    comment: valid Python expressions w/o comments and line continuation
+    patterns:
+      - include: "#typed-var-declaration"
+      - include: "#illegal-names"
+      - include: "#cast"
+      - include: "#c-types"
+      - include: "#storage-modifiers"
+
+      - include: "source.python#expression-bare"
+
+  expression-base:
+    comment: valid Python expressions with comments and line continuation
+    patterns:
+      - include: "source.python#comments"
+      - include: "#expression-bare"
+      - include: "source.python#line-continuation"
+
+  identifier:
+    comment: Standard Identifier "myname0_name"
+    patterns:
+      match: (?x) \b &?([[:alpha:]_]\w*) \b
+
+  illegal-names:
+    patterns:
+      - include: "source.python#illegal-names"
+      - match: |
+          (?x)
+            \b(?:
+              (
+                nogil | gil | include | extern | extern from
+              ) | (
+                as | cimport
+              ) | (
+                cdef | cpdef | ctypedef | DEF
+              ) | (
+                const | unsigned | signed | new | readonly | inline
+              )
+            )\b
+        captures:
+          "1": { name: keyword.control.flow.cython }
+          "2": { name: keyword.control.import.cython }
+          "3": { name: storage.type.declaration.cython }
+          "4": { name: storage.type.modifiers.cython }
+
+  storage-modifiers:
+    - name: storage.modifier.declaration.python
+      match: |
+        (?x)
+          \b(?<!\.)(
+            const | unsigned | signed | new | readonly | inline
+          )\b
+      captures:
+        "1": { name: storage.type.modifiers.cython }
+
+  c-types:
+    comment: Built in C Types
+    name: support.type.cython
+    match: |
+      (?x)
+        (?<!\.)\b(
+          char | short | complex | double | void | struct | enum | bint | size_t | ssize_t | NULL
+        )\b
+
+  type-var-base:
+    comment: A type. Can include members. "stdint.uint64_t"
+    name: support.type.cython
+    match: |
+      (?x)
+        \b(([[:alpha:]_][\w\.]*))\b
+    patterns:
+      - include: "#illegal-names"
+
+  typed-var-declaration:
+    comment: |
+      Typed var declaration. Does not include any modifiers or cdef. Examples:
+        Normal: "double num"
+        Pointer Pre and Post fix: "double *num" "double* num" "double **num"
+        View: "double[::1] num" "double[:,:,:] num"
+        Multiple: double num, num2, num3
+        Do not match multiplication operator: "num * num2" "double *num = num2 * num3"
+
+      Steps:
+        1. Ignore keywords / modifiers
+        2. Match a type
+        3. Allow optional view syntax
+        4. Allow optional pre or postfix pointer
+        5. Match variable name
+        6. Match any additional variable names separated by ','
+        7. Stop at end of line or assignment operator
+    patterns:
+      - include: "#illegal-names"
+      - match: |
+          (?x)
+            (\b[[:alpha:]_][\w\.]*\b)
+              (?:\[[:\d\,]*\])?
+                (?:\*+\s|\s\*+|\s)
+                  ([[:alpha:]_]\w*)
+                    (,\s*[[:alpha:]_]\w*)*
+                      (?:\s*=|\s*$)
+        captures:
+          "1": { name: support.type.cython } # TODO: Don't highlight?
+          "2": { name: entity.variable.name.cython }
+          "3": { name: entity.variable.name.cython }
+
+  cast:
+    name: support.type.cast.cython
+    begin: \<(?=\s*[[:alpha:]_][\w\s\.\*]*\>)
+    end: \>
+    beginCaptures:
+      "0": { name: punctuation.definition.cast.begin.cython }
+    endCaptures:
+      "0": { name: punctuation.definition.cast.end.cython }
+    patterns:
+      - include: "#expression"
+      - include: "#type-var-base"
+
+  statement-keyword:
+    patterns:
+      - include: "source.python#statement-keyword"
+      - include: "#storage-modifiers"
+      - name: storage.type.declaration.cython
+        match: |
+          \b(def|cdef|cpdef)\b
+            \s+(?!class)
+              (?:\b[[:alpha:]_]\w*\s*\()
+      - name: keyword.control.flow.cython
+        match: |
+          (?x)
+            \b(?<!\.)(nogil | gil | new | extern | include)\b
+      - name: storage.type.declaration.cython
+        match: |
+          \b(DEF)\b\s+(?:\b[[:alpha:]_]\w*)
+
+  import:
+    comment: |
+      Import statements used to correctly mark `from`, `cimport`, and `as`
+    patterns:
+      - begin: \b(?<!\.)(from)\b(?=.+cimport)
+        end: $|(?=cimport)
+        beginCaptures:
+          "1": { name: keyword.control.import.cython }
+        patterns:
+          - name: punctuation.separator.period.cython
+            match: \.+
+          - include: "#expression"
+
+      - begin: \b(?<!\.)(cimport)\b
+        end: $
+        beginCaptures:
+          "1": { name: keyword.control.import.cython }
+        patterns:
+          - name: keyword.control.import.cython
+            match: \b(?<!\.)as\b
+          - include: "#expression"
+
+  class-declaration:
+    comment: "cdef class ClassName()"
+    patterns:
+      - name: meta.class.cython
+        begin: |
+          (?x)
+            \s*(cdef\s+class)\s+
+              (?=
+                [[:alpha:]_]\w* \s* (:|\()?
+              )
+        end: (:|$)
+        beginCaptures:
+          "1": { name: storage.type.class.cython }
+        endCaptures:
+          "1": { name: punctuation.section.class.begin.cython }
+        patterns:
+          - include: "#class-name"
+          - include: "source.python#class-inheritance"
+
+  class-name:
+    patterns:
+      - include: "source.python#illegal-object-name"
+      - include: "source.python#builtin-possible-callables"
+      - name: entity.name.type.class.cython
+        match: |
+          (?x)
+            \b ([[:alpha:]_]\w*) \b
+
+  function-declaration:
+    name: meta.function.cython
+    patterns:
+      - include: "#illegal-names"
+      - match: |
+          (?x)((?:\b[[:alpha:]_][\w\.]*\b)(?:\[[:\d\,]*\])?(?:\*+\s|\s\*+|\s))?([[:alpha:]_]\w*(\())
+        captures:
+          "1": { name: support.type.cython } # TODO: Don't highlight?
+          "2": { name: entity.name.function.cython }
+          "3": { name: punctuation.section.function.begin.cython }
+
+  parameters:
+    # TODO: Fix
+    name: meta.function.parameters.cython
+    begin: (\()
+    end: (\))
+    beginCaptures:
+      "1": { name: punctuation.definition.parameters.begin.cython }
+    endCaptures:
+      "1": { name: punctuation.definition.parameters.end.cython }
+
+    patterns:
+      - name: keyword.operator.unpacking.parameter.cython
+        match: (\*\*|\*)
+      - include: "#typed-parameter"
+      - include: "source.python#lambda-incomplete"
+      - include: "source.python#illegal-names"
+      - include: "source.python#illegal-object-name"
+      - include: "source.python#parameter-special"
+      - match: |
+          (?x)
+            ([[:alpha:]_]\w*)
+              \s* (?: (,) | (?=[)#\n=]))
+        captures:
+          "1": { name: variable.parameter.function.language.cython }
+          "2": { name: punctuation.separator.parameters.cython }
+      - include: "source.python#comments"
+      - include: "source.python#loose-default"
+      - include: "source.python#annotated-parameter"
+
+  typed-parameter:
+    # TODO: Fix
+    patterns:
+      - include: "#expression"
+      - name: keyword.operator.assignment.python
+        match: =(?!=)
+      - match: |
+          (?x)
+            (\b[[:alpha:]_][\w\.]*\b)
+              (?:\[[:\d\,]*\])?
+                (?:\*+\s|\s\*+|\s)
+                  ([[:alpha:]_]\w*)
+                    \s* (?: (,) | (?=[)#\n=]))
+        captures:
+          "1": { name: support.type.parameter.function.language.cython }
+          "2": { name: variable.parameter.function.language.python }

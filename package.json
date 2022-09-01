@@ -1,0 +1,38 @@
+{
+  "name": "cython",
+  "displayName": "vscode-cython",
+  "description": "Cython Language Extension",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.70.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "cython",
+        "aliases": [
+          "Cython",
+          "cython"
+        ],
+        "extensions": [
+          ".pyx .pxd .pxi"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cython",
+        "path": "./syntaxes/cython.tmLanguage",
+        "scopeName": "source.cython"
+      }
+    ]
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "syntaxdev": "^0.1.3"
+  }
+}
