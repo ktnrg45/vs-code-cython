@@ -9,6 +9,12 @@
   "categories": [
     "Programming Languages"
   ],
+  "//": {
+    "activationEvents": [
+      "onLanguage:cython"
+    ],
+    "main": "./pyright/packages/vscode-pyright/dist/extension.js"
+  },
   "contributes": {
     "languages": [
       {
@@ -18,7 +24,9 @@
           "cython"
         ],
         "extensions": [
-          ".pyx .pxd .pxi"
+          ".pyx",
+          ".pxd",
+          ".pxi"
         ],
         "configuration": "./language-configuration.json"
       }
@@ -31,6 +39,28 @@
       }
     ]
   },
+  "activationEvents": [
+    "onLanguage:cython"
+  ],
+  "main": "./pyright/packages/vscode-pyright/dist/extension.js",
+  "scripts": {
+    "postinstall": "cd pyright && npm run bootstrap",
+    "bootstrap": "cd pyright && node ./build/skipBootstrap.js || lerna bootstrap",
+    "clean": "cd pyright && lerna run --no-bail --stream clean",
+    "install:all": "cd pyright && npm install && lerna exec --no-bail npm install",
+    "update:all": "cd pyright && node ./build/updateDeps.js",
+    "build:extension:dev": "make && cd pyright && cd packages/vscode-pyright && npm run webpack",
+    "build:cli:dev": "cd pyright && cd packages/pyright && npm run webpack",
+    "watch:extension": "cd pyright && cd packages/vscode-pyright && npm run webpack-dev",
+    "check": "cd pyright && npm run check:syncpack && npm run check:eslint && npm run check:prettier && npm run check:lockindent",
+    "check:syncpack": "cd pyright && syncpack list-mismatches",
+    "fix:syncpack": "cd pyright && syncpack fix-mismatches --indent \"    \" && npm run install:all",
+    "check:eslint": "cd pyright && eslint .",
+    "fix:eslint": "cd pyright && eslint --fix .",
+    "check:prettier": "cd pyright && prettier -c .",
+    "fix:prettier": "cd pyright && prettier --write .",
+    "check:lockindent": "cd pyright && node ./build/checkLockIndent.js"
+},
   "devDependencies": {
     "js-yaml": "^4.1.0",
     "syntaxdev": "^0.1.3"
