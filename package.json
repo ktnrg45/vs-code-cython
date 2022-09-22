@@ -37,7 +37,25 @@
         "path": "./syntaxes/cython.tmLanguage",
         "scopeName": "source.cython"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Cython",
+      "properties": {
+        "cython.analysis.autoImportCompletions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Offer auto-import completions.",
+          "scope": "resource"
+        },
+        "cython.venvPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to folder with a list of Virtual Environments.",
+          "scope": "resource"
+        }
+      }
+    }
   },
   "activationEvents": [
     "onLanguage:cython"
@@ -60,9 +78,10 @@
     "check:prettier": "cd pyright && prettier -c .",
     "fix:prettier": "cd pyright && prettier --write .",
     "check:lockindent": "cd pyright && node ./build/checkLockIndent.js"
-},
+  },
   "devDependencies": {
     "js-yaml": "^4.1.0",
+    "lerna": "^5.3.0",
     "syntaxdev": "^0.1.3"
   }
 }

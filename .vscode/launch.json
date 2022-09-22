@@ -103,5 +103,11 @@
                 "--extensionDevelopmentPath=${workspaceFolder}"
             ]
         }
-    ]
+    ],
+	"compounds": [
+		{
+			"name": "Client + Server",
+			"configurations": ["Extension", "Pyright attach server"]
+		}
+	]
 }
