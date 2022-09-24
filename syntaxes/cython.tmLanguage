@@ -213,7 +213,7 @@
         <key>match</key>
         <string>(?x)
   (?&lt;!\.)\b(
-    char | short | complex | double | void | struct | enum | bint | size_t | ssize_t | NULL
+    char | short | complex | double | void | struct | enum | union | bint | size_t | ssize_t | NULL
   )\b
 </string>
       </dict>
