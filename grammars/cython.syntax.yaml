@@ -58,7 +58,7 @@ repository:
               ) | (
                 cdef | cpdef | ctypedef | DEF
               ) | (
-                const | unsigned | signed | new | readonly | inline
+                const | unsigned | signed | new | readonly | inline | public
               )
             )\b
         captures:
@@ -72,7 +72,7 @@ repository:
       match: |
         (?x)
           \b(?<!\.)(
-            const | unsigned | signed | new | readonly | inline
+            const | unsigned | signed | new | readonly | inline | public
           )\b
       captures:
         "1": { name: storage.type.modifiers.cython }
