@@ -52,7 +52,7 @@ repository:
           (?x)
             \b(?:
               (
-                nogil | gil | include | extern | extern from
+                nogil | gil | include | extern | extern from | noexcept
               ) | (
                 as | cimport
               ) | (
@@ -151,7 +151,7 @@ repository:
       - name: keyword.control.flow.cython
         match: |
           (?x)
-            \b(?<!\.)(nogil | gil | new | extern | include)\b
+            \b(?<!\.)(nogil | gil | new | extern | include | noexcept)\b
       - name: storage.type.declaration.cython
         match: |
           \b(DEF)\b\s+(?:\b[[:alpha:]_]\w*)
@@ -216,6 +216,32 @@ repository:
           "1": { name: support.type.cython } # TODO: Don't highlight?
           "2": { name: entity.name.function.cython }
           "3": { name: punctuation.section.function.begin.cython }
+      - include: "#function-declaration-def"
+
+  function-declaration-def:
+    name: meta.function.python
+    begin: |
+      (?x)
+        \s*
+        (?:\b(async) \s+)? \b(def)\s+
+          (?=
+            [[:alpha:]_][[:word:]]* \s* \(
+          )
+
+    end: (:|(?=[#'"\n]))
+    beginCaptures:
+      "1": { name: storage.type.function.async.cython }
+      "2": { name: storage.type.function.cython }
+
+    endCaptures:
+      "1": { name: punctuation.section.function.begin.cython }
+
+    patterns:
+      - include: "#illegal-names"
+      - include: "source.python#function-def-name"
+      - include: "source.python#parameters"
+      - include: "source.python#line-continuation"
+      - include: "source.python#return-annotation"
 
   parameters:
     # TODO: Fix

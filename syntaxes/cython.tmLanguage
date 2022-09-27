@@ -147,7 +147,7 @@
             <string>(?x)
   \b(?:
     (
-      nogil | gil | include | extern | extern from
+      nogil | gil | include | extern | extern from | noexcept
     ) | (
       as | cimport
     ) | (
@@ -353,7 +353,7 @@ Steps:
             <string>keyword.control.flow.cython</string>
             <key>match</key>
             <string>(?x)
-  \b(?&lt;!\.)(nogil | gil | new | extern | include)\b
+  \b(?&lt;!\.)(nogil | gil | new | extern | include | noexcept)\b
 </string>
           </dict>
           <dict>
@@ -530,6 +530,69 @@ Steps:
                 <string>punctuation.section.function.begin.cython</string>
               </dict>
             </dict>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>#function-declaration-def</string>
+          </dict>
+        </array>
+      </dict>
+      <key>function-declaration-def</key>
+      <dict>
+        <key>name</key>
+        <string>meta.function.python</string>
+        <key>begin</key>
+        <string>(?x)
+  \s*
+  (?:\b(async) \s+)? \b(def)\s+
+    (?=
+      [[:alpha:]_][[:word:]]* \s* \(
+    )
+</string>
+        <key>end</key>
+        <string>(:|(?=[#'"\n]))</string>
+        <key>beginCaptures</key>
+        <dict>
+          <key>1</key>
+          <dict>
+            <key>name</key>
+            <string>storage.type.function.async.cython</string>
+          </dict>
+          <key>2</key>
+          <dict>
+            <key>name</key>
+            <string>storage.type.function.cython</string>
+          </dict>
+        </dict>
+        <key>endCaptures</key>
+        <dict>
+          <key>1</key>
+          <dict>
+            <key>name</key>
+            <string>punctuation.section.function.begin.cython</string>
+          </dict>
+        </dict>
+        <key>patterns</key>
+        <array>
+          <dict>
+            <key>include</key>
+            <string>#illegal-names</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>source.python#function-def-name</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>source.python#parameters</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>source.python#line-continuation</string>
+          </dict>
+          <dict>
+            <key>include</key>
+            <string>source.python#return-annotation</string>
           </dict>
         </array>
       </dict>
