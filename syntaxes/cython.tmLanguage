@@ -147,13 +147,13 @@
             <string>(?x)
   \b(?:
     (
-      nogil | gil | include | extern | extern from | noexcept
+      nogil | gil | include | extern | extern from | noexcept | namespace
     ) | (
       as | cimport
     ) | (
       cdef | cpdef | ctypedef | DEF
     ) | (
-      const | unsigned | signed | new | readonly | inline | public
+      const | unsigned | signed | new | readonly | inline | public | cppclass | operator
     )
   )\b
 </string>
@@ -191,7 +191,7 @@
           <key>match</key>
           <string>(?x)
   \b(?&lt;!\.)(
-    const | unsigned | signed | new | readonly | inline | public
+    const | unsigned | signed | new | readonly | inline | public | cppclass | operator
   )\b
 </string>
           <key>captures</key>
