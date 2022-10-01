@@ -1,11 +1,5 @@
 {
     "version": "2.0.0",
-    "presentation": {
-        "echo": true,
-        "reveal": "always",
-        "focus": false,
-        "panel": "shared"
-    },
     "tasks": [
         {
             "label": "Watch extension",
@@ -40,6 +34,26 @@
                         "regexp": "webpack compiled in .*? ms"
                     }
                 }
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared"
+            },
+        },
+        {
+            "label": "sleep",
+            "type": "shell",
+            "command": "sleep 1",
+            "windows": {
+                "command": "ping 127.0.0.1 -n 1> nul"
+            },
+            "group": "none",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared",
+                "revealProblems": "onProblem"
             }
         }
     ]

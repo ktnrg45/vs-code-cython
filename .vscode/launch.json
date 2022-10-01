@@ -2,53 +2,15 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Pyright CLI",
-            "type": "node",
-            "request": "launch",
-            "program": "${workspaceRoot}/pyright/packages/pyright/index.js",
-            "preLaunchTask": "npm: build:cli:dev",
-            "args": [
-                "--verifytypes",
-                "pandas.core.reshape.concat",
-            ],
-            "internalConsoleOptions": "openOnSessionStart",
-            "outFiles": [
-                "${workspaceRoot}/pyright/packages/pyright/dist/**/*.js"
-            ]
-        },
-        {
-            "name": "Pyright tests",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "--runInBand"
-            ],
-            "cwd": "${workspaceRoot}/pyright/packages/pyright-internal",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "program": "${workspaceFolder}/pyright/packages/pyright-internal/node_modules/jest/bin/jest"
-        },
-        {
-            "name": "Pyright extension",
+            "name": "Extension",
             "type": "extensionHost",
             "request": "launch",
-            "runtimeExecutable": "${workspaceRoot}/pyright/packages/vscode-pyright/dist/extension.js",
-            "preLaunchTask": "npm: build:extension:dev",
             "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}",
-                // The published extension is named "ms-pyright.pyright", but in debug mode it's "ms-pyright.vscode-pyright"
-                // to allow the extension code to participate in the lerna monorepo. Make sure that the published extension
-                // isn't enabled, otherwise both are loaded and conflict.
-                "--disable-extension=ms-pyright.pyright"
-            ],
-            "smartStep": true,
-            "sourceMaps": true,
-            "outFiles": [
-                "${workspaceRoot}/pyright/packages/vscode-pyright/dist/**/*.js"
+                "--extensionDevelopmentPath=${workspaceFolder}"
             ]
         },
         {
-            "name": "Pyright attach server",
+            "name": "Attach server",
             "type": "node",
             "request": "attach",
             "port": 9600,
@@ -56,58 +18,14 @@
             "sourceMaps": true,
             "outFiles": [
                 "${workspaceRoot}/pyright/packages/vscode-pyright/dist/**/*.js"
-            ]
-        },
-        {
-            "name": "Pyright jest current file",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "${fileBasenameNoExtension}",
-                "--runInBand",
             ],
-            "cwd": "${workspaceRoot}/pyright/packages/pyright-internal",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "program": "${workspaceFolder}/pyright/packages/pyright-internal/node_modules/jest/bin/jest"
+            "preLaunchTask": "sleep"
         },
-        {
-            "name": "Pyright jest selected test",
-            "type": "node",
-            "request": "launch",
-            "args": ["${fileBasenameNoExtension}", "--runInBand", "-t", "${selectedText}"],
-            "cwd": "${workspaceRoot}/pyright/packages/pyright-internal",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "program": "${workspaceFolder}/pyright/packages/pyright-internal/node_modules/jest/bin/jest"
-        },
-        {
-            "name": "Pyright fourslash current file",
-            "type": "node",
-            "request": "launch",
-            "args": [
-                "fourSlashRunner.test.ts",
-                "-t ${fileBasenameNoExtension}",
-                "--runInBand",
-            ],
-            "cwd": "${workspaceRoot}/pyright/packages/pyright-internal",
-            "console": "integratedTerminal",
-            "internalConsoleOptions": "neverOpen",
-            "program": "${workspaceFolder}/pyright/packages/pyright-internal/node_modules/jest/bin/jest"
-        },
-        {
-            "name": "Extension",
-            "type": "extensionHost",
-            "request": "launch",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
-        }
     ],
 	"compounds": [
 		{
-			"name": "Client + Server",
-			"configurations": ["Extension", "Pyright attach server"]
+			"name": "Extension + Server",
+			"configurations": ["Extension", "Attach server"]
 		}
 	]
 }

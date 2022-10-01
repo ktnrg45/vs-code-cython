@@ -11,13 +11,51 @@ Cython Language Extension for VS Code
 # About
 
 This extension provides syntax highlighting and a Static Syntax checker for the Cython language.
-Cython is a subset of Python with it's own syntax mixed with Python syntax.
+Cython is a superset of Python with it's own C-styled syntax mixed with Python syntax.
 
 The static checker is based on Pyright.
 
 **Currently a proof of concept. Bugs or other issues will likely be present.**
 
-## Syntax Highlighting
+# Install from source
+
+- Clone repo. For installation clone in the `<user home>/.vscode/extensions` folder.
+
+- Ensure submodules are fetched with:
+
+  ```
+  git submodule update --init --recursive
+
+  ```
+
+- Install `npm`
+- Run:
+  ```
+  make install
+  ```
+
+# Development
+
+## Setup
+To setup development environment:
+
+- Follow the instructions for `Installing from source` (repo can be cloned anywhere on filesystem)
+
+- Install development npm packages:
+
+  ```
+  make dev
+  ```
+
+- To rebuild lang-server and syntax file, Run:
+
+  ```
+  make build
+  ```
+
+##
+
+## Syntax highlighting changes
 
 Any changes should be made to `./grammars/cython.syntax.yaml`
 
@@ -28,29 +66,3 @@ To re-generate syntax file run:
 ```
 make syntax
 ```
-
-# Development
-
-To setup development environment:
-
-- Clone repo. For installation clone in the `<user home>/.vscode/extensions` folder.
-
-- Ensure submodules are fetched with:
-
-  ```
-  git submodule update --init --recursive
-  ```
-
-- Install npm
-
-- Install npm packages:
-
-  ```
-  make init
-  ```
-
-- Built extension:
-
-  ```
-  make build
-  ```
