@@ -53,7 +53,7 @@
             "presentation": {
                 "reveal": "silent",
                 "panel": "shared",
-                "revealProblems": "onProblem"
+                "close": true
             }
         }
     ]
