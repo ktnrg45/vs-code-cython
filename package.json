@@ -42,16 +42,13 @@
       "type": "object",
       "title": "Cython",
       "properties": {
-        "cython.analysis.autoImportCompletions": {
-          "type": "boolean",
-          "default": true,
-          "description": "Offer auto-import completions.",
-          "scope": "resource"
-        },
-        "cython.venvPath": {
-          "type": "string",
-          "default": "",
-          "description": "Path to folder with a list of Virtual Environments.",
+        "cython.includePaths": {
+          "type": "array",
+          "default": [],
+					"items": {
+						"type": "string"
+					},
+          "description": "Paths to include for analysis. (Out-of-tree paths)",
           "scope": "resource"
         }
       }
