@@ -13,9 +13,27 @@ Cython Language Extension for VS Code
 This extension provides syntax highlighting and a Static Syntax checker for the Cython language.
 Cython is a superset of Python with it's own C-styled syntax mixed with Python syntax.
 
-The static checker is based on Pyright.
+The static checker is based on [Pyright](https://github.com/microsoft/pyright). and will only support Cython/Python syntax version 3.0 and above.
 
-**Currently a proof of concept. Bugs or other issues will likely be present.**
+**Currently in beta. Bugs or other issues will likely be present.**
+
+## Features to possibly add
+
+These features would be nice to have but are not implemented.
+
+- In-depth type analysis
+- C headers analysis
+- Cython C++ syntax parsing
+
+# FAQ
+
+- If no problems are reported will my code compile?
+
+  > No. There are no guarantees that code will be compiled correctly
+
+# Issues
+
+Please report any issues in this repo only.
 
 # Install from source
 
@@ -37,6 +55,7 @@ The static checker is based on Pyright.
 # Development
 
 ## Setup
+
 To setup development environment:
 
 - Follow the instructions for `Installing from source` (repo can be cloned anywhere on filesystem)
