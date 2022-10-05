@@ -1,3 +1,3 @@
-[submodule "pyright"]
-	path = pyright
-	url = https://github.com/ktnrg45/pyright.git
+[submodule "cyright"]
+	path = cyright
+	url = https://github.com/ktnrg45/cyright.git
