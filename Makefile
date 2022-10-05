@@ -16,4 +16,4 @@ syntax:
 	./node_modules/.bin/syntaxdev build-plist --in grammars/cython.syntax.yaml --out syntaxes/cython.tmLanguage
 
 build-lang-server:
-	cd pyright/packages/vscode-pyright && npm run webpack
+	cd cyright/packages/vscode-pyright && npm run webpack

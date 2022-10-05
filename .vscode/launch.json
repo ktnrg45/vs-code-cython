@@ -17,7 +17,7 @@
             "smartStep": true,
             "sourceMaps": true,
             "outFiles": [
-                "${workspaceRoot}/pyright/packages/vscode-pyright/dist/**/*.js"
+                "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
             ],
             "preLaunchTask": "sleep"
         },
