@@ -508,7 +508,13 @@ Steps:
           </dict>
           <dict>
             <key>match</key>
-            <string>(?x)(\b[[:alpha:]_][\w\.]*\b)(\[[:\d\,]*\])?(?:\*+\s|\s\*+|\s)?([[:alpha:]_]\w*(\())
+            <string>(?x)
+  (?:
+    (\b[[:alpha:]_][\w\.]*\b)
+      (\[[:\d\,]*\])?
+        (?:\*+\s|\s\*+|\s)?
+  )?
+    ([[:alpha:]_]\w*(\())
 </string>
             <key>captures</key>
             <dict>
