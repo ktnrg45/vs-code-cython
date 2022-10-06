@@ -508,7 +508,7 @@ Steps:
           </dict>
           <dict>
             <key>match</key>
-            <string>(?x)((?:\b[[:alpha:]_][\w\.]*\b)(?:\[[:\d\,]*\])?(?:\*+\s|\s\*+|\s))?([[:alpha:]_]\w*(\())
+            <string>(?x)(\b[[:alpha:]_][\w\.]*\b)(\[[:\d\,]*\])?(?:\*+\s|\s\*+|\s)?([[:alpha:]_]\w*(\())
 </string>
             <key>captures</key>
             <dict>
@@ -520,9 +520,14 @@ Steps:
               <key>2</key>
               <dict>
                 <key>name</key>
-                <string>entity.name.function.cython</string>
+                <string>punctuation.section.view.cython</string>
               </dict>
               <key>3</key>
+              <dict>
+                <key>name</key>
+                <string>entity.name.function.cython</string>
+              </dict>
+              <key>4</key>
               <dict>
                 <key>name</key>
                 <string>punctuation.section.function.begin.cython</string>

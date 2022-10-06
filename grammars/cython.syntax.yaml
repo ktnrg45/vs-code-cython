@@ -210,11 +210,12 @@ repository:
     patterns:
       - include: "#illegal-names"
       - match: |
-          (?x)((?:\b[[:alpha:]_][\w\.]*\b)(?:\[[:\d\,]*\])?(?:\*+\s|\s\*+|\s))?([[:alpha:]_]\w*(\())
+          (?x)(\b[[:alpha:]_][\w\.]*\b)(\[[:\d\,]*\])?(?:\*+\s|\s\*+|\s)?([[:alpha:]_]\w*(\())
         captures:
           "1": { name: support.type.cython } # TODO: Don't highlight?
-          "2": { name: entity.name.function.cython }
-          "3": { name: punctuation.section.function.begin.cython }
+          "2": { name: punctuation.section.view.cython }
+          "3": { name: entity.name.function.cython }
+          "4": { name: punctuation.section.function.begin.cython }
       - include: "#function-declaration-def"
 
   function-declaration-def:
