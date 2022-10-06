@@ -293,10 +293,8 @@ Steps:
       </dict>
       <key>cast</key>
       <dict>
-        <key>name</key>
-        <string>support.type.cast.cython</string>
         <key>begin</key>
-        <string>\&lt;(?=\s*[[:alpha:]_][\w\s\.\*]*\&gt;)</string>
+        <string>\&lt;</string>
         <key>end</key>
         <string>\&gt;</string>
         <key>beginCaptures</key>

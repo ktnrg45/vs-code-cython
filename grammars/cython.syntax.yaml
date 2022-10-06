@@ -128,8 +128,7 @@ repository:
           "3": { name: entity.variable.name.cython }
 
   cast:
-    name: support.type.cast.cython
-    begin: \<(?=\s*[[:alpha:]_][\w\s\.\*]*\>)
+    begin: \<
     end: \>
     beginCaptures:
       "0": { name: punctuation.definition.cast.begin.cython }
