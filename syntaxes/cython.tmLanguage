@@ -294,7 +294,7 @@ Steps:
       <key>cast</key>
       <dict>
         <key>begin</key>
-        <string>\&lt;</string>
+        <string>&lt;(?=\s*[[:alpha:]_][\w\s\.(?:\*)]*\&gt;)</string>
         <key>end</key>
         <string>\&gt;</string>
         <key>beginCaptures</key>
@@ -509,6 +509,7 @@ Steps:
           <dict>
             <key>match</key>
             <string>(?x)
+  (?:def|cdef|cpdef)\s+
   (?:
     (\b[[:alpha:]_][\w\.]*\b)
       (\[[:\d\,]*\])?

@@ -128,7 +128,7 @@ repository:
           "3": { name: entity.variable.name.cython }
 
   cast:
-    begin: \<
+    begin: <(?=\s*[[:alpha:]_][\w\s\.(?:\*)]*\>)
     end: \>
     beginCaptures:
       "0": { name: punctuation.definition.cast.begin.cython }
@@ -211,6 +211,7 @@ repository:
       - include: "#illegal-names"
       - match: |
           (?x)
+            (?:def|cdef|cpdef)\s+
             (?:
               (\b[[:alpha:]_][\w\.]*\b)
                 (\[[:\d\,]*\])?
