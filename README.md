@@ -2,7 +2,7 @@
 
 Cython Language Extension for VS Code
 
-![alt text](https://github.com/ktnrg45/vs-code-cython/raw/master/assets/demo.gif "VS Code Cython Demo")
+![VS Code Cython Demo](https://github.com/ktnrg45/vs-code-cython/raw/master/assets/demo.gif)
 
 # Features
 
