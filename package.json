@@ -1,7 +1,7 @@
 {
   "name": "cython",
-  "displayName": "vscode-cython",
-  "description": "Cython Language Extension",
+  "displayName": "Cython",
+  "description": "Cython syntax checker + highlighter, Go to Definitions, type analysis, and more.",
   "version": "0.0.1",
   "publisher": "ktnrg45",
   "icon": "icon.png",
