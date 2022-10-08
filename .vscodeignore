@@ -1,4 +1,10 @@
 .vscode/**
 .vscode-test/**
 .gitignore
+grammars
+node_modules
+Makefile
 vsc-extension-quickstart.md
+
+cyright/**
+!cyright/packages/vscode-pyright/dist
