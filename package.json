@@ -7,7 +7,7 @@
   "icon": "icon.png",
   "repository": {
     "type": "git",
-		"url": "https://github.com/ktnrg45/vs-code-cython.git"
+    "url": "https://github.com/ktnrg45/vs-code-cython.git"
   },
   "engines": {
     "vscode": "^1.70.0"
