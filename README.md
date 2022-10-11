@@ -2,6 +2,8 @@
 
 Cython Language Extension for VS Code
 
+[Repository](https://github.com/ktnrg45/vs-code-cython)
+
 ![VS Code Cython Demo](https://github.com/ktnrg45/vs-code-cython/raw/master/assets/demo.gif)
 
 # Features
