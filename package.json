@@ -52,10 +52,18 @@
           "scope": "resource"
         }
       }
-    }
+    },
+    "commands": [
+      {
+        "command": "cython.restartserver",
+        "title": "Restart Language Server",
+        "category": "Cython"
+      }
+    ]
   },
   "activationEvents": [
-    "onLanguage:cython"
+    "onLanguage:cython",
+    "onCommand:cython.restartserver"
   ],
   "main": "./cyright/packages/vscode-pyright/dist/extension.js",
   "scripts": {
