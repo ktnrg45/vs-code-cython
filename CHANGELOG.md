@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.0.4]
+
+- Add type hints for callback declarations
+- Add type hints for prototype functions with no name
+
 ## [0.0.3]
 
 - Fix issue parsing 'long long' types
