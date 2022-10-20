@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.0.5]
+
+- Fix parsing 'long long int'
+- Retain type suffixes on assignment
+
 ## [0.0.4]
 
 - Add type hints for callback declarations
