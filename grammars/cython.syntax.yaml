@@ -13,6 +13,7 @@ repository:
       - include: "#import"
       - include: "#statement-keyword"
       - include: "#class-declaration"
+      - include: "#function-callback"
       - include: "#function-declaration"
       - include: "source.python#statement"
 
@@ -328,6 +329,7 @@ repository:
           "1": { name: keyword.operator.unpacking.arguments.cython }
       - include: "#lambda-incomplete"
       - include: "#illegal-names"
+      - include: "#function-callback"
       - match: '\b([[:alpha:]_]\w*)\s*(=)(?!=)'
         captures:
           "1": { name: variable.parameter.function-call.cython }
@@ -340,3 +342,24 @@ repository:
         captures:
           "1": { name: punctuation.definition.arguments.end.cython }
           "2": { name: punctuation.definition.arguments.begin.cython }
+
+  function-callback:
+    name: meta.function-callback.cython
+    comment: Function callback "returnType (*name)(args)"
+    begin: |
+      (?x)
+        \b(?=
+          (\b[[:alpha:]_][\w\.]*\b)
+            (\[[:\d\,]*\])?
+              (?:\*+\s|\s\*+|\s)?
+          \(\*[[:alpha:]_]\w*\) \s* (\()
+        )
+    end: (\))
+    beginCaptures:
+      "1": { name: support.type.cython }
+    endCaptures:
+      "1": { name: punctuation.definition.arguments.end.cython }
+    patterns:
+      - include: "source.python#special-variables"
+      - include: "source.python#function-name"
+      - include: "#function-arguments"
