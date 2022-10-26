@@ -30,7 +30,7 @@ repository:
       - include: "#cast"
       - include: "#c-types"
       - include: "#storage-modifiers"
-
+      - include: "#function-call"
       - include: "source.python#expression-bare"
 
   expression-base:
@@ -68,23 +68,23 @@ repository:
           "4": { name: storage.type.modifiers.cython }
 
   storage-modifiers:
-    - name: storage.modifier.declaration.python
-      match: |
-        (?x)
-          \b(?<!\.)(
-            const | unsigned | signed | new | readonly | inline | public | cppclass | operator
-          )\b
-      captures:
-        "1": { name: storage.type.modifiers.cython }
+    match: |
+      (?x)
+        \b(?<!\.)(
+          const | unsigned | signed | new | readonly | inline | public | cppclass | operator
+        )\b
+    captures:
+      "1": { name: storage.type.modifiers.cython }
 
   c-types:
     comment: Built in C Types
-    name: support.type.cython
     match: |
       (?x)
         (?<!\.)\b(
           char | short | complex | double | void | struct | enum | union | bint | size_t | ssize_t | NULL
         )\b
+    captures:
+      "1": { name: support.type.cython }
 
   type-var-base:
     comment: A type. Can include members. "stdint.uint64_t"
@@ -294,4 +294,49 @@ repository:
                     \s* (?: (,) | (?=[)#\n=]))
         captures:
           "1": { name: support.type.parameter.function.language.cython }
-          "2": { name: variable.parameter.function.language.python }
+          "2": { name: variable.parameter.function.language.cython }
+
+  function-call:
+    name: meta.function-call.cython
+    comment: Regular function call of the type "name(args)"
+    begin: |
+      (?x)
+        \b(?=
+          ([[:alpha:]_]\w*) \s* (\()
+        )
+    end: (\))
+    endCaptures:
+      "1": { name: punctuation.definition.arguments.end.cython }
+    patterns:
+      - include: "source.python#special-variables"
+      - include: "source.python#function-name"
+      - include: "#function-arguments"
+
+  function-arguments:
+    begin: (\()
+    end: (?=\))(?!\)\s*\()
+    beginCaptures:
+      "1": { name: punctuation.definition.arguments.begin.cython }
+    contentName: meta.function-call.arguments.cython
+    patterns:
+      - name: punctuation.separator.arguments.cython
+        match: (,)
+      - match: |
+          (?x)
+            (?:(?<=[,(])|^) \s* (\*{1,2})
+        captures:
+          "1": { name: keyword.operator.unpacking.arguments.cython }
+      - include: "#lambda-incomplete"
+      - include: "#illegal-names"
+      - match: '\b([[:alpha:]_]\w*)\s*(=)(?!=)'
+        captures:
+          "1": { name: variable.parameter.function-call.cython }
+          "2": { name: keyword.operator.assignment.cython }
+
+      - name: keyword.operator.assignment.cython
+        match: =(?!=)
+      - include: "#expression"
+      - match: \s*(\))\s*(\()
+        captures:
+          "1": { name: punctuation.definition.arguments.end.cython }
+          "2": { name: punctuation.definition.arguments.begin.cython }
