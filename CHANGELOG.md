@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.6]
+
+- Highlight variable modifiers in parameters
+- Show the type name only for hovers over a variable declared with ctypedef type
+- Fix rename symbol action for a type used in a cdef declaration
+
 ## [0.0.5]
 
 - Fix parsing 'long long int'
