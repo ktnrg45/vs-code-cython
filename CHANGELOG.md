@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.0.7]
+
+- Don't expand type alias if type is also a type alias
+- Report not defined for type alias
+
 ## [0.0.6]
 
 - Highlight variable modifiers in parameters
