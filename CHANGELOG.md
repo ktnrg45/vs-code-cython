@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.0.8]
+
+- Fix type alias expansion for imported type aliases
+- Add deprecation warnings for legacy property and for from loops
+- Remove auto closing angle brackets
+
 ## [0.0.7]
 
 - Don't expand type alias if type is also a type alias
