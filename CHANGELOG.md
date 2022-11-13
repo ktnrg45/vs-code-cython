@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.10]
+
+- Make cython installed check simpler
+
 ## [0.0.9]
 
 - Fix infinite loop when parsing cython function

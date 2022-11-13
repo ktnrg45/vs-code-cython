@@ -2,7 +2,7 @@
   "name": "vscode-cython",
   "displayName": "Cython VSCode",
   "description": "Cython syntax checker + highlighter, Go to Definitions, type analysis, and more.",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "publisher": "ktnrg45",
   "icon": "icon.png",
   "repository": {
