@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.0.9]
+
+- Fix infinite loop when parsing cython function
+
 ## [0.0.8]
 
 - Fix type alias expansion for imported type aliases
