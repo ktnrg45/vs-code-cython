@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.1.0]
+
+- Auto-import matching 'pxd' file for 'pyx' files
+- Add parsing for ctuples
+
 ## [0.0.10]
 
 - Make cython installed check simpler

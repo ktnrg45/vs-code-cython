@@ -40,7 +40,7 @@ These features would be nice to have but are not implemented.
 
 # Issues
 
-Please report any issues in this repo. For issues with the language server, please post issues in the [Cyright repo](https://github.com/ktnrg45/cyright).
+Please report any issues in this repo.
 
 # Installing
 
