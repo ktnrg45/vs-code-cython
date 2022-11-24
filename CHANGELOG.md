@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.1.1]
+
+- Add parsing for cast to memory view
+- Add parsing for buffer syntax
+
 ## [0.1.0]
 
 - Auto-import matching 'pxd' file for 'pyx' files
