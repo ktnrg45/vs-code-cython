@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.1.2]
+
+- Don't assume function declaration if statement is an assignment
+- Suppress error on possible template
+
 ## [0.1.1]
 
 - Add parsing for cast to memory view
