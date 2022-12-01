@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.3]
+
+- Add cython and cython.operator typings
+
 ## [0.1.2]
 
 - Don't assume function declaration if statement is an assignment
