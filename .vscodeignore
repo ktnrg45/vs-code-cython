@@ -8,3 +8,5 @@ vsc-extension-quickstart.md
 
 cyright/**
 !cyright/packages/vscode-pyright/dist
+
+scripts

@@ -1,0 +1,122 @@
+#!/bin/bash
+
+MASTER='master'
+DEV='dev'
+
+CYRIGHT='cyright'
+CYRIGHT_BRANCH='cython'
+
+WORKDIR=${PWD}
+
+CHANGELOG_FILE="${WORKDIR}/CHANGELOG.md"
+
+NEW_TAG=$1
+if [ -z "$NEW_TAG" ]; then
+    echo "No tag specified."
+    exit 1
+fi
+existing_tag=$(cat $CHANGELOG_FILE | grep "\[$NEW_TAG\]")
+if [ ! -z "$existing_tag" ]; then
+    echo "Tag: $NEW_TAG already exists"
+    exit 1
+fi
+
+function check_git_changed() {
+    changed=$(git status --porcelain --untracked-files=no)
+    if [ ! -z "$changed" ]; then
+        repo=$(git config --get remote.origin.url)
+        if [ ! -z $1 ]; then
+            if [ "$changed" = " M cyright" ]; then
+                echo "Ignoring uncommited submodules"
+                return 0
+            fi
+        fi
+        echo "Uncommitted changes for repo: $repo"
+        exit 1
+    fi
+}
+
+
+branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+
+if [ ! "$branch" = "$DEV" ]; then
+    echo "Branch is not on '$DEV'"
+    exit 1
+fi
+
+
+REMOTE=$(git config --get remote.origin.url)
+
+LAST_TAG=$(gh release list | grep "Latest" |  awk '{print $1;}')
+if [ -z "$LAST_TAG" ]; then
+    echo "Error: No Latest Release found"
+    exit 1
+fi
+CYRIGHT_LAST=$(git rev-parse ${LAST_TAG}:${CYRIGHT})
+if [ ! "$?" -eq 0 ]; then
+    echo "Unable to get change log for ${CYRIGHT}"
+    exit 1
+fi
+
+cd $CYRIGHT
+check_git_changed
+CYRIGHT_REMOTE=$(git config --get remote.origin.url)
+CYRIGHT_LATEST=$(git log --format="%H" -n 1)
+CHANGELOG_CYRIGHT=$(git log --pretty=format:'- %s' ${CYRIGHT_LAST}...${CYRIGHT_LATEST})
+
+cd $WORKDIR
+check_git_changed 1
+CHANGELOG_REMOTE=$(git log --pretty=format:'- %s' ${LAST_TAG}...)
+CHANGELOG_HEADER=$(cat $CHANGELOG_FILE | head -1)
+CHANGELOG=$(cat $CHANGELOG_FILE | tail -n +2)
+
+
+CHANGELOGS=()
+[ ! -z "$CHANGELOG_REMOTE" ] && CHANGELOGS+=( "$CHANGELOG_REMOTE" )
+[ ! -z "$CHANGELOG_CYRIGHT" ] && CHANGELOGS+=( "$CHANGELOG_CYRIGHT" )
+
+CHANGELOG_ADD=$(printf "\n%s" "${CHANGELOGS[@]}")
+CHANGELOG_ADD=${CHANGELOG_ADD:1}
+
+cat > ${CHANGELOG_FILE}.tmp <<EOF
+$CHANGELOG_ADD
+EOF
+
+while [ ! "$REPLY" = "y" ] && [ ! "$REPLY" = "Y" ]; do
+    printf "\nChanges:\n\n"
+    cat ${CHANGELOG_FILE}.tmp
+    printf "\nContinue(Y) or Edit(E)?\n>> "
+    read
+    if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
+        break
+    elif [ "$REPLY" = "e" ] || [ "$REPLY" = "E" ]; then
+        nano ${CHANGELOG_FILE}.tmp
+        CHANGELOG_ADD=$(cat ${CHANGELOG_FILE}.tmp)
+    else
+        echo "Exiting"
+        exit 0
+    fi
+done
+
+cat > ${CHANGELOG_FILE}.tmp <<EOF
+$CHANGELOG_HEADER
+
+## [$NEW_TAG]
+
+$CHANGELOG_ADD
+$CHANGELOG
+EOF
+
+GH_CHANGELOG=$(printf "%s\n\n%s" "$CHANGELOG_ADD" "**Full Changelog**: ${REMOTE}/compare/${LAST_TAG}...${NEW_TAG}")
+
+printf "\n\nRelease Log:\n\n%s\n" "$GH_CHANGELOG"
+check_git_changed 1
+sed -i "s/\"version\":.*/\"version\": \"$NEW_TAG\",/g" package.json
+mv ${CHANGELOG_FILE}.tmp $CHANGELOG_FILE
+git commit -am "$NEW_TAG"
+git push origin $DEV
+git checkout $MASTER
+git rebase $DEV
+git push origin $MASTER
+git checkout $DEV
+gh release create $NEW_TAG -t $NEW_TAG -n "$GH_CHANGELOG" --target $MASTER
