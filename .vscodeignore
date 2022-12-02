@@ -1,6 +1,8 @@
 .vscode/**
 .vscode-test/**
 .gitignore
+.github
+.gitmodules
 grammars
 node_modules
 Makefile
