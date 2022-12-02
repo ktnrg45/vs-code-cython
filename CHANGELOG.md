@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.4]
+
+- Fix error (Request textDocument/documentHighlight failed) on cast node
+
 ## [0.1.3]
 
 - Add cython and cython.operator typings
