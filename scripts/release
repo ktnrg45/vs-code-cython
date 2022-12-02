@@ -44,9 +44,6 @@ if [ ! "$branch" = "$DEV" ]; then
     exit 1
 fi
 
-
-REMOTE=$(git config --get remote.origin.url)
-
 LAST_TAG=$(gh release list | grep "Latest" |  awk '{print $1;}')
 if [ -z "$LAST_TAG" ]; then
     echo "Error: No Latest Release found"
@@ -107,6 +104,7 @@ $CHANGELOG_ADD
 $CHANGELOG
 EOF
 
+REMOTE=$(git config --get remote.origin.url | sed 's/\.git//g')
 GH_CHANGELOG=$(printf "%s\n\n%s" "$CHANGELOG_ADD" "**Full Changelog**: ${REMOTE}/compare/${LAST_TAG}...${NEW_TAG}")
 
 printf "\n\nRelease Log:\n\n%s\n" "$GH_CHANGELOG"
