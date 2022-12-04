@@ -38,6 +38,9 @@ jobs:
           name: dist
           path: vscode-cython.vsix
 
+      - name: Test
+        run: npm run test
+
   publish:
     runs-on: ubuntu-latest
     needs: [build]

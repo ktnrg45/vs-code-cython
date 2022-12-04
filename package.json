@@ -88,7 +88,9 @@
     "postpackage": "cd cyright/packages/vscode-pyright && node ./build/renamePackage.js vscode-pyright",
     "vscode:prepublish": "make syntax && cd cyright/packages/vscode-pyright && npm run clean && webpack --mode production --progress",
     "webpack": "cd cyright/packages/vscode-pyright && webpack --mode development --progress",
-    "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && webpack --mode development --watch --progress"
+    "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && webpack --mode development --watch --progress",
+    "test": "cd cyright/packages/pyright-internal && npm run test:cython",
+    "test:compile": "cd cyright/packages/pyright-internal && npm run test:cython:compile"
   },
   "devDependencies": {
     "js-yaml": "^4.1.0",
