@@ -56,6 +56,12 @@ if [ ! "$?" -eq 0 ]; then
 fi
 
 cd $CYRIGHT
+cyright_branch = $(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+if [ ! "$cyright_branch" = "$CYRIGHT_BRANCH"]; then
+    echo "Cyright branch is not on $CYRIGHT_BRANCH"
+    exit 1
+fi
+
 check_git_changed
 CYRIGHT_REMOTE=$(git config --get remote.origin.url)
 CYRIGHT_LATEST=$(git log --format="%H" -n 1)
