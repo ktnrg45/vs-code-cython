@@ -98,3 +98,18 @@ To re-generate syntax file run:
 ```
 make syntax
 ```
+
+## Language Server (Cyright) Developement
+
+If you would like to develop the Language server you can setup the development environment as such:
+
+- Fork the [Cyright Repository](https://github.com/ktnrg45/cyright)
+
+- Change the submodule remote:
+  ```
+  git submodule set-url -- cyright <URL of your Cyright Fork>
+  ```
+
+Pull requests should be created under the [Cyright Repository](https://github.com/ktnrg45/cyright).
+
+**Do Not** submit a pull request in this repo with any submodule changes.
