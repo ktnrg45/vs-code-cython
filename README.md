@@ -2,9 +2,11 @@
 
 [![Version](https://vsmarketplacebadge.apphb.com/version/ktnrg45.vscode-cython.svg)](https://marketplace.visualstudio.com/items?itemName=ktnrg45.vscode-cython) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/ktnrg45.vscode-cython.svg)](https://marketplace.visualstudio.com/items?itemName=ktnrg45.vscode-cython)
 
-[Repository](https://github.com/ktnrg45/vs-code-cython)
+[Main Repository](https://github.com/ktnrg45/vs-code-cython)
 
-Cython Language Extension for VS Code
+[Cyright LSP Repository](https://github.com/ktnrg45/cyright)
+
+## Cython Language Extension for VS Code
 
 ![VS Code Cython Demo](https://github.com/ktnrg45/vs-code-cython/raw/master/assets/demo.gif)
 
