@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.1.5]
+
+- Add typings for cython module
+
 ## [0.1.4]
 
 - Fix error (Request textDocument/documentHighlight failed) on cast node
