@@ -15,6 +15,7 @@ repository:
       - include: "#class-declaration"
       - include: "#function-callback"
       - include: "#function-declaration"
+      - include: "#cpp-operators"
       - include: "source.python#statement"
 
   expression:
@@ -26,7 +27,7 @@ repository:
   expression-bare:
     comment: valid Python expressions w/o comments and line continuation
     patterns:
-      - include: "#typed-var-declaration"
+      #- include: "#typed-var-declaration"
       - include: "#illegal-names"
       - include: "#cast"
       - include: "#c-types"
@@ -59,7 +60,7 @@ repository:
               ) | (
                 cdef | cpdef | ctypedef | DEF
               ) | (
-                const | unsigned | signed | new | readonly | inline | public | cppclass | operator
+                const | unsigned | signed | new | readonly | inline | public | cppclass
               )
             )\b
         captures:
@@ -68,11 +69,24 @@ repository:
           "3": { name: storage.type.declaration.cython }
           "4": { name: storage.type.modifiers.cython }
 
+  cpp-operators:
+    match: |
+      (?x)
+        (operator)
+        (
+          \+{1,2} | \-{1,2} | \={1,2} |
+          \* | \/ | \! | \!\= | \> | \< |\>\= | \<\= |
+          \[\] | \s+bool
+        )(?=\s*\()
+    captures:
+      "1": { name: storage.type.cpp.operator.cython }
+      "2": { name: punctuation.cpp.operator.cython }
+
   storage-modifiers:
     match: |
       (?x)
         \b(?<!\.)(
-          const | unsigned | signed | new | readonly | inline | public | cppclass | operator
+          const | unsigned | signed | new | readonly | inline | public | cppclass
         )\b
     captures:
       "1": { name: storage.type.modifiers.cython }
@@ -96,37 +110,37 @@ repository:
     patterns:
       - include: "#illegal-names"
 
-  typed-var-declaration:
-    comment: |
-      Typed var declaration. Does not include any modifiers or cdef. Examples:
-        Normal: "double num"
-        Pointer Pre and Post fix: "double *num" "double* num" "double **num"
-        View: "double[::1] num" "double[:,:,:] num"
-        Multiple: double num, num2, num3
-        Do not match multiplication operator: "num * num2" "double *num = num2 * num3"
+  # typed-var-declaration:
+  #   comment: |
+  #     Typed var declaration. Does not include any modifiers or cdef. Examples:
+  #       Normal: "double num"
+  #       Pointer Pre and Post fix: "double *num" "double* num" "double **num"
+  #       View: "double[::1] num" "double[:,:,:] num"
+  #       Multiple: double num, num2, num3
+  #       Do not match multiplication operator: "num * num2" "double *num = num2 * num3"
 
-      Steps:
-        1. Ignore keywords / modifiers
-        2. Match a type
-        3. Allow optional view syntax
-        4. Allow optional pre or postfix pointer
-        5. Match variable name
-        6. Match any additional variable names separated by ','
-        7. Stop at end of line or assignment operator
-    patterns:
-      - include: "#illegal-names"
-      - match: |
-          (?x)
-            (\b[[:alpha:]_][\w\.]*\b)
-              (?:\[[:\d\,]*\])?
-                (?:\*+\s|\s\*+|\s+)
-                  ([[:alpha:]_]\w*)
-                    (,\s*[[:alpha:]_]\w*)*
-                      (?:\s*=|\s*$)
-        captures:
-          "1": { name: support.type.cython } # TODO: Don't highlight?
-          "2": { name: entity.variable.name.cython }
-          "3": { name: entity.variable.name.cython }
+  #     Steps:
+  #       1. Ignore keywords / modifiers
+  #       2. Match a type
+  #       3. Allow optional view syntax
+  #       4. Allow optional pre or postfix pointer
+  #       5. Match variable name
+  #       6. Match any additional variable names separated by ','
+  #       7. Stop at end of line or assignment operator
+  #   patterns:
+  #     - include: "#illegal-names"
+  #     - match: |
+  #         (?x)
+  #           (\b[[:alpha:]_][\w\.]*\b)
+  #             (?:\[[:\d\,]*\])?
+  #               (?:\*+\s|\s\*+|\s+)
+  #                 ([[:alpha:]_]\w*)
+  #                   (,\s*[[:alpha:]_]\w*)*
+  #                     (?:\s*=|\s*$)
+  #       captures:
+  #         "1": { name: support.type.cython } # TODO: Don't highlight?
+  #         "2": { name: entity.variable.name.cython }
+  #         "3": { name: entity.variable.name.cython }
 
   cast:
     begin: <(?=\s*[[:alpha:]_][\w\s\.(?:\*)]*\>)
