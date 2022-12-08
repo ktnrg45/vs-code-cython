@@ -15,6 +15,9 @@ if [ -z "$NEW_TAG" ]; then
     echo "No tag specified."
     exit 1
 fi
+
+git fetch
+
 existing_tag=$(cat $CHANGELOG_FILE | grep "\[$NEW_TAG\]")
 if [ ! -z "$existing_tag" ]; then
     echo "Tag: $NEW_TAG already exists"
@@ -56,7 +59,7 @@ if [ ! "$?" -eq 0 ]; then
 fi
 
 cd $CYRIGHT
-cyright_branch = $(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+cyright_branch=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
 if [ ! "$cyright_branch" = "$CYRIGHT_BRANCH" ]; then
     echo "Cyright branch is not on $CYRIGHT_BRANCH"
     exit 1
@@ -94,6 +97,7 @@ while [ ! "$REPLY" = "y" ] && [ ! "$REPLY" = "Y" ]; do
         break
     elif [ "$REPLY" = "e" ] || [ "$REPLY" = "E" ]; then
         nano ${CHANGELOG_FILE}.tmp
+        sed -ri 's/#.*//g;s/^\s+//g;/^$/d' ${CHANGELOG_FILE}.tmp
         CHANGELOG_ADD=$(cat ${CHANGELOG_FILE}.tmp)
     else
         echo "Exiting"
