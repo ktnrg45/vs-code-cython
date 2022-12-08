@@ -114,6 +114,13 @@ $CHANGELOG_ADD
 $CHANGELOG
 EOF
 
+echo "Review Changelog: ${CHANGELOG_FILE}.tmp"
+printf "\nContinue(Y)?\n>> "
+read
+if [ ! "$REPLY" = "y" ] || [ ! "$REPLY" = "Y" ]; then
+    echo "Exiting"
+fi
+
 REMOTE=$(git config --get remote.origin.url | sed 's/\.git//g')
 GH_CHANGELOG=$(printf "%s\n\n%s" "$CHANGELOG_ADD" "**Full Changelog**: ${REMOTE}/compare/${LAST_TAG}...${NEW_TAG}")
 
