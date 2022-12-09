@@ -101,18 +101,7 @@ make syntax
 
 ## Language Server (Cyright) Development
 
-If you would like to develop the Language server you can setup the development environment as such:
-
-- Fork the [Cyright Repository](https://github.com/ktnrg45/cyright)
-
-- Change the submodule remote to your fork:
-  ```
-  git submodule set-url -- cyright <URL of your Cyright Fork>
-  ```
-
 Pull requests should be created under the [Cyright Repository](https://github.com/ktnrg45/cyright).
-
-**Do Not** submit a pull request in this repo with any submodule changes.
 
 There is a 'Watch Extension' task to aid in development.
 The language server can be debugged by launching the 'Extension' launch target and then launching the 'Attach Server' target.
