@@ -25,14 +25,15 @@ jobs:
         run: npm install --include=dev && npm install -g vsce
 
       - name: VSCE Build Package Release
-        if: github.event.release.prerelease == false
+        if: github.event_name == 'release' && github.event.release.prerelease == false
         run: vsce package -o vscode-cython.vsix
 
       - name: VSCE Build Package Pre-Release
-        if: github.event.release.prerelease != false
+        if: github.event_name == 'release' && github.event.release.prerelease != false
         run: vsce package -o vscode-cython.vsix --pre-release
 
       - name: Upload Artifact
+        if: github.event_name == 'release'
         uses: actions/upload-artifact@v3
         with:
           name: dist
