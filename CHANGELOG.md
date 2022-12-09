@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.2.0]
+
+- Add cpp syntax support
+- Fix cpp operator highlight
+
 ## [0.1.5]
 
 - Add typings for cython module
