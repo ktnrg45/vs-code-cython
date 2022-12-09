@@ -119,6 +119,7 @@ printf "\nContinue(Y)?\n>> "
 read
 if [ ! "$REPLY" = "y" ] || [ ! "$REPLY" = "Y" ]; then
     echo "Exiting"
+    exit 1
 fi
 
 REMOTE=$(git config --get remote.origin.url | sed 's/\.git//g')
