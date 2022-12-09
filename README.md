@@ -12,8 +12,8 @@
 
 # Features
 
-- Syntax Highlighting
-- Static Syntax Checking
+- Syntax highlighting
+- Static syntax checking for C and CPP syntax
 - Go to definitions
 - Import resolver for .pyx and .pxd files
 
@@ -32,7 +32,6 @@ These features would be nice to have but are not implemented.
 
 - In-depth type analysis
 - C headers analysis / inline C code analysis
-- Cython C++ syntax parsing
 
 # FAQ
 
