@@ -58,8 +58,21 @@
         "command": "cython.restartserver",
         "title": "Restart Language Server",
         "category": "Cython"
+      },
+      {
+        "command": "cython.compileCurrentFile",
+        "title": "Compile Current File",
+        "category": "Cython"
       }
-    ]
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "cython.compileCurrentFile",
+          "when": "editorLangId == cython && resourceExtname == .pyx"
+        }
+      ]
+    }
   },
   "activationEvents": [
     "onLanguage:cython",
