@@ -60,7 +60,7 @@ repository:
               ) | (
                 cdef | cpdef | ctypedef | DEF
               ) | (
-                const | unsigned | signed | new | readonly | inline | public | cppclass
+                const | unsigned | signed | new | readonly | inline | public | cppclass | packed(?=\s+struct)
               )
             )\b
         captures:
