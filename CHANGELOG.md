@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.2.1]
+
+- Add packed modifier to highlight
+- Add compileCurrentFile command
+- Fix declaration type mismatch
+- Add parsing for packed struct
+- Don't report general type error for struct or union with constructor or sequence initialization
+- Do not report general type error for a cast to an aliased callback
+- Fix type check 'noReturn' for protoype function
+
 ## [0.2.0]
 
 - Add cpp syntax support
