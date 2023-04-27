@@ -1,7 +1,5 @@
 # vscode-cython
 
-[![Version](https://vsmarketplacebadge.apphb.com/version/ktnrg45.vscode-cython.svg)](https://marketplace.visualstudio.com/items?itemName=ktnrg45.vscode-cython) [![Installs](https://vsmarketplacebadge.apphb.com/installs-short/ktnrg45.vscode-cython.svg)](https://marketplace.visualstudio.com/items?itemName=ktnrg45.vscode-cython)
-
 [Main Repository](https://github.com/ktnrg45/vs-code-cython)
 
 [Cyright LSP Repository](https://github.com/ktnrg45/cyright)
