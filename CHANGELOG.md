@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.3.0]
+
+- Add Semantic Tokens
+
 ## [0.2.1]
 
 - Add packed modifier to highlight
