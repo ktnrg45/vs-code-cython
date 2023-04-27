@@ -11,164 +11,13 @@ repository:
   statement:
     patterns:
       - include: "#import"
-      - include: "#statement-keyword"
-      - include: "#class-declaration"
-      - include: "#function-callback"
-      - include: "#function-declaration"
-      - include: "#cpp-operators"
       - include: "source.python#statement"
 
   expression:
     patterns:
-      - include: "#identifier"
-      - include: "#expression-base"
-      - include: "source.python#member-access"
-
-  expression-bare:
-    comment: valid Python expressions w/o comments and line continuation
-    patterns:
-      #- include: "#typed-var-declaration"
+      - include: "#literal"
       - include: "#illegal-names"
-      - include: "#cast"
-      - include: "#c-types"
-      - include: "#storage-modifiers"
-      - include: "#function-call"
-      - include: "source.python#expression-bare"
-
-  expression-base:
-    comment: valid Python expressions with comments and line continuation
-    patterns:
-      - include: "source.python#comments"
-      - include: "#expression-bare"
-      - include: "source.python#line-continuation"
-
-  identifier:
-    comment: Standard Identifier "myname0_name"
-    patterns:
-      match: (?x) \b &?([[:alpha:]_]\w*) \b
-
-  illegal-names:
-    patterns:
-      - include: "source.python#illegal-names"
-      - match: |
-          (?x)
-            \b(?:
-              (
-                nogil | gil | include | extern | extern from | noexcept | namespace
-              ) | (
-                as | cimport
-              ) | (
-                cdef | cpdef | ctypedef | DEF
-              ) | (
-                const | unsigned | signed | new | readonly | inline | public | cppclass | packed(?=\s+struct)
-              )
-            )\b
-        captures:
-          "1": { name: keyword.control.flow.cython }
-          "2": { name: keyword.control.import.cython }
-          "3": { name: storage.type.declaration.cython }
-          "4": { name: storage.type.modifiers.cython }
-
-  cpp-operators:
-    match: |
-      (?x)
-        (operator)
-        (
-          \+{1,2} | \-{1,2} | \={1,2} |
-          \* | \/ | \! | \!\= | \> | \< |\>\= | \<\= |
-          \[\] | \s+bool
-        )(?=\s*\()
-    captures:
-      "1": { name: storage.type.cpp.operator.cython }
-      "2": { name: punctuation.cpp.operator.cython }
-
-  storage-modifiers:
-    match: |
-      (?x)
-        \b(?<!\.)(
-          const | unsigned | signed | new | readonly | inline | public | cppclass
-        )\b
-    captures:
-      "1": { name: storage.type.modifiers.cython }
-
-  c-types:
-    comment: Built in C Types
-    match: |
-      (?x)
-        (?<!\.)\b(
-          char | short | complex | double | void | struct | enum | union | bint | size_t | ssize_t | NULL
-        )\b
-    captures:
-      "1": { name: support.type.cython }
-
-  type-var-base:
-    comment: A type. Can include members. "stdint.uint64_t"
-    name: support.type.cython
-    match: |
-      (?x)
-        \b(([[:alpha:]_][\w\.]*))\b
-    patterns:
-      - include: "#illegal-names"
-
-  # typed-var-declaration:
-  #   comment: |
-  #     Typed var declaration. Does not include any modifiers or cdef. Examples:
-  #       Normal: "double num"
-  #       Pointer Pre and Post fix: "double *num" "double* num" "double **num"
-  #       View: "double[::1] num" "double[:,:,:] num"
-  #       Multiple: double num, num2, num3
-  #       Do not match multiplication operator: "num * num2" "double *num = num2 * num3"
-
-  #     Steps:
-  #       1. Ignore keywords / modifiers
-  #       2. Match a type
-  #       3. Allow optional view syntax
-  #       4. Allow optional pre or postfix pointer
-  #       5. Match variable name
-  #       6. Match any additional variable names separated by ','
-  #       7. Stop at end of line or assignment operator
-  #   patterns:
-  #     - include: "#illegal-names"
-  #     - match: |
-  #         (?x)
-  #           (\b[[:alpha:]_][\w\.]*\b)
-  #             (?:\[[:\d\,]*\])?
-  #               (?:\*+\s|\s\*+|\s+)
-  #                 ([[:alpha:]_]\w*)
-  #                   (,\s*[[:alpha:]_]\w*)*
-  #                     (?:\s*=|\s*$)
-  #       captures:
-  #         "1": { name: support.type.cython } # TODO: Don't highlight?
-  #         "2": { name: entity.variable.name.cython }
-  #         "3": { name: entity.variable.name.cython }
-
-  cast:
-    begin: <(?=\s*[[:alpha:]_][\w\s\.(?:\*)]*\>)
-    end: \>
-    beginCaptures:
-      "0": { name: punctuation.definition.cast.begin.cython }
-    endCaptures:
-      "0": { name: punctuation.definition.cast.end.cython }
-    patterns:
-      - include: "#expression"
-      - include: "#type-var-base"
-
-  statement-keyword:
-    patterns:
-      - include: "source.python#statement-keyword"
-      - include: "#storage-modifiers"
-      - name: storage.type.declaration.cython
-        match: |
-          \b(def|cdef|cpdef)\b
-            \s+(?!class)
-              (?:\b[[:alpha:]_]\w*\s*\()
-      - name: keyword.control.flow.cython
-        match: |
-          (?x)
-            \b(?<!\.)(nogil | gil | new | extern | include | noexcept)\b
-      - name: storage.type.declaration.cython
-        match: |
-          \b(DEF)\b\s+(?:\b[[:alpha:]_]\w*)
+      - include: "source.python#expression"
 
   import:
     comment: |
@@ -192,188 +41,30 @@ repository:
             match: \b(?<!\.)as\b
           - include: "#expression"
 
-  class-declaration:
-    comment: "cdef class ClassName()"
+  literal:
     patterns:
-      - name: meta.class.cython
-        begin: |
-          (?x)
-            \s*(cdef\s+class)\s+
-              (?=
-                [[:alpha:]_]\w* \s* (:|\()?
-              )
-        end: (:|$)
-        beginCaptures:
-          "1": { name: storage.type.class.cython }
-        endCaptures:
-          "1": { name: punctuation.section.class.begin.cython }
-        patterns:
-          - include: "#class-name"
-          - include: "source.python#class-inheritance"
+      - name: constant.language.cython
+        match: \b(NULL)\b
+      - include: "source.python#literal"
 
-  class-name:
+  illegal-names:
     patterns:
-      - include: "source.python#illegal-object-name"
-      - include: "source.python#builtin-possible-callables"
-      - name: entity.name.type.class.cython
-        match: |
-          (?x)
-            \b ([[:alpha:]_]\w*) \b
-
-  function-declaration:
-    name: meta.function.cython
-    patterns:
-      - include: "#illegal-names"
-      - match: |
-          (?x)
-            (?:def|cdef|cpdef)\s+
-            (?:
-              (\b[[:alpha:]_][\w\.]*\b)
-                (\[[:\d\,]*\])?
-                  (?:\*+\s|\s\*+|\s)?
-            )?
-              ([[:alpha:]_]\w*(\())
-        captures:
-          "1": { name: support.type.cython } # TODO: Don't highlight?
-          "2": { name: punctuation.section.view.cython }
-          "3": { name: entity.name.function.cython }
-          "4": { name: punctuation.section.function.begin.cython }
-      - include: "#function-declaration-def"
-
-  function-declaration-def:
-    name: meta.function.python
-    begin: |
-      (?x)
-        \s*
-        (?:\b(async) \s+)? \b(def)\s+
-          (?=
-            [[:alpha:]_][[:word:]]* \s* \(
-          )
-
-    end: (:|(?=[#'"\n]))
-    beginCaptures:
-      "1": { name: storage.type.function.async.cython }
-      "2": { name: storage.type.function.cython }
-
-    endCaptures:
-      "1": { name: punctuation.section.function.begin.cython }
-
-    patterns:
-      - include: "#illegal-names"
-      - include: "source.python#function-def-name"
-      - include: "source.python#parameters"
-      - include: "source.python#line-continuation"
-      - include: "source.python#return-annotation"
-
-  parameters:
-    # TODO: Fix
-    name: meta.function.parameters.cython
-    begin: (\()
-    end: (\))
-    beginCaptures:
-      "1": { name: punctuation.definition.parameters.begin.cython }
-    endCaptures:
-      "1": { name: punctuation.definition.parameters.end.cython }
-
-    patterns:
-      - name: keyword.operator.unpacking.parameter.cython
-        match: (\*\*|\*)
-      - include: "#typed-parameter"
-      - include: "source.python#lambda-incomplete"
       - include: "source.python#illegal-names"
-      - include: "source.python#illegal-object-name"
-      - include: "source.python#parameter-special"
       - match: |
           (?x)
-            ([[:alpha:]_]\w*)
-              \s* (?: (,) | (?=[)#\n=]))
+            \b(?:
+              (
+                nogil | gil | include | extern | extern from | noexcept | namespace
+              ) | (
+                as | cimport
+              ) | (
+                cdef | cpdef | ctypedef | DEF
+              ) | (
+                const | unsigned | signed | new | readonly | inline | public | cppclass | packed(?=\s+struct)
+              )
+            )\b
         captures:
-          "1": { name: variable.parameter.function.language.cython }
-          "2": { name: punctuation.separator.parameters.cython }
-      - include: "source.python#comments"
-      - include: "source.python#loose-default"
-      - include: "source.python#annotated-parameter"
-
-  typed-parameter:
-    # TODO: Fix
-    patterns:
-      - include: "#expression"
-      - name: keyword.operator.assignment.python
-        match: =(?!=)
-      - match: |
-          (?x)
-            (\b[[:alpha:]_][\w\.]*\b)
-              (?:\[[:\d\,]*\])?
-                (?:\*+\s|\s\*+|\s)
-                  ([[:alpha:]_]\w*)
-                    \s* (?: (,) | (?=[)#\n=]))
-        captures:
-          "1": { name: support.type.parameter.function.language.cython }
-          "2": { name: variable.parameter.function.language.cython }
-
-  function-call:
-    name: meta.function-call.cython
-    comment: Regular function call of the type "name(args)"
-    begin: |
-      (?x)
-        \b(?=
-          ([[:alpha:]_]\w*) \s* (\()
-        )
-    end: (\))
-    endCaptures:
-      "1": { name: punctuation.definition.arguments.end.cython }
-    patterns:
-      - include: "source.python#special-variables"
-      - include: "source.python#function-name"
-      - include: "#function-arguments"
-
-  function-arguments:
-    begin: (\()
-    end: (?=\))(?!\)\s*\()
-    beginCaptures:
-      "1": { name: punctuation.definition.arguments.begin.cython }
-    contentName: meta.function-call.arguments.cython
-    patterns:
-      - name: punctuation.separator.arguments.cython
-        match: (,)
-      - match: |
-          (?x)
-            (?:(?<=[,(])|^) \s* (\*{1,2})
-        captures:
-          "1": { name: keyword.operator.unpacking.arguments.cython }
-      - include: "#lambda-incomplete"
-      - include: "#illegal-names"
-      - include: "#function-callback"
-      - match: '\b([[:alpha:]_]\w*)\s*(=)(?!=)'
-        captures:
-          "1": { name: variable.parameter.function-call.cython }
-          "2": { name: keyword.operator.assignment.cython }
-
-      - name: keyword.operator.assignment.cython
-        match: =(?!=)
-      - include: "#expression"
-      - match: \s*(\))\s*(\()
-        captures:
-          "1": { name: punctuation.definition.arguments.end.cython }
-          "2": { name: punctuation.definition.arguments.begin.cython }
-
-  function-callback:
-    name: meta.function-callback.cython
-    comment: Function callback "returnType (*name)(args)"
-    begin: |
-      (?x)
-        \b(?=
-          (\b[[:alpha:]_][\w\.]*\b)
-            (\[[:\d\,]*\])?
-              (?:\*+\s|\s\*+|\s)?
-          \(\*[[:alpha:]_]\w*\) \s* (\()
-        )
-    end: (\))
-    beginCaptures:
-      "1": { name: support.type.cython }
-    endCaptures:
-      "1": { name: punctuation.definition.arguments.end.cython }
-    patterns:
-      - include: "source.python#special-variables"
-      - include: "source.python#function-name"
-      - include: "#function-arguments"
+          "1": { name: keyword.control.flow.cython }
+          "2": { name: keyword.control.import.cython }
+          "3": { name: storage.type.declaration.cython }
+          "4": { name: storage.type.modifiers.cython }
