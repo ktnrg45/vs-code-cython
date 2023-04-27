@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.3.1]
+
+- Update readme
+
 ## [0.3.0]
 
 - Add Semantic Tokens
