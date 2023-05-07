@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.3.2]
+
+- Differentiate config options from pyright
+- Make nogil and gil soft keywords
+- Ensure modifiers in params are highlighted
+- Fix semantics for callback functions
+
 ## [0.3.1]
 
 - Update readme
