@@ -10,17 +10,38 @@ WORKDIR=${PWD}
 
 CHANGELOG_FILE="${WORKDIR}/CHANGELOG.md"
 
-NEW_TAG=$1
-if [ -z "$NEW_TAG" ]; then
-    echo "No tag specified."
-    exit 1
-fi
-
 git fetch
 
-existing_tag=$(cat $CHANGELOG_FILE | grep "\[$NEW_TAG\]")
+NEW_TAG=$1
+
+latest=$(git tag --sort=-v:refname | head -n 1)
+
+function autoincrement_tag() {
+    major=$(echo $latest | awk -F. '{print $1}')
+    minor=$(echo $latest | awk -F. '{print $2}')
+    patch=$(echo $latest | awk -F. '{print $3}')
+    patch=$((patch + 1))
+    echo "$major.$minor.$patch"
+}
+
+if [ -z "$NEW_TAG" ]; then
+    echo "No tag specified. Autoincrementing tag from $latest."
+    NEW_TAG=$(autoincrement_tag)
+    printf "\nUsing tag: \'$NEW_TAG\'. Continue(Y)?\n>> "
+    read
+    if [ ! "$REPLY" = "y" ] && [ ! "$REPLY" = "Y" ]; then
+        echo "Aborting..."
+        exit 1
+    fi
+fi
+
+existing_tag=$(git tag | grep -F "$NEW_TAG")
 if [ ! -z "$existing_tag" ]; then
     echo "Tag: $NEW_TAG already exists"
+    exit 1
+fi
+if [ "$NEW_TAG" \< "$latest" ]; then
+    echo "New tag: $NEW_TAG < latest tag: $latest"
     exit 1
 fi
 
@@ -88,6 +109,7 @@ cat > ${CHANGELOG_FILE}.tmp <<EOF
 $CHANGELOG_ADD
 EOF
 
+REPLY=""
 while [ ! "$REPLY" = "y" ] && [ ! "$REPLY" = "Y" ]; do
     printf "\nChanges:\n\n"
     cat ${CHANGELOG_FILE}.tmp
