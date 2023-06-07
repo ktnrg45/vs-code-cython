@@ -1,5 +1,16 @@
 # Change Log
 
+## [0.3.3]
+
+- Allow multiple imports of same name for python and cython
+- Temp fix for infinite recursion with nested cpp classes
+- Fix error parsing semantic tokens with elipses
+- Fix error for no fullname attribute
+- Make properties appear as a variable in semantic tokens
+- Add cython keyword completions
+- Add fused types
+- Fix bogus error for 'cdef inline' function with nogil
+
 ## [0.3.2]
 
 - Differentiate config options from pyright
