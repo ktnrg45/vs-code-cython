@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.3.4]
+
+- Don't add constructors for cppclass to completions
+- Fix issue binding scope to constructor
+
 ## [0.3.3]
 
 - Allow multiple imports of same name for python and cython
