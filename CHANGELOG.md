@@ -1,5 +1,17 @@
 # Change Log
 
+## [0.3.5]
+
+- Allow membernodes for template annotations
+- Ensure TypeVar semantics are provided
+- Default to variable semantics unless no declaration
+- Add type parameter semantics
+- Parse template returnType
+- Add missing semantics
+- Create type annotation for template declaration
+- Fix hang when parsing nested cpp template params
+- Fix nested cpp classes type evaluation
+
 ## [0.3.4]
 
 - Don't add constructors for cppclass to completions
