@@ -1,31 +1,37 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Extension",
-            "type": "extensionHost",
-            "request": "launch",
-            "args": [
-                "--extensionDevelopmentPath=${workspaceFolder}"
-            ]
-        },
-        {
-            "name": "Attach server",
-            "type": "node",
-            "request": "attach",
-            "port": 9600,
-            "smartStep": true,
-            "sourceMaps": true,
-            "outFiles": [
-                "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
-            ],
-            "preLaunchTask": "sleep"
-        },
-    ],
-	"compounds": [
-		{
-			"name": "Extension + Server",
-			"configurations": ["Extension", "Attach server"]
-		}
-	]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"]
+    },
+    {
+      "name": "Attach server",
+      "type": "node",
+      "request": "attach",
+      "port": 9600,
+      "smartStep": true,
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
+      ],
+      "preLaunchTask": "sleep"
+    },
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Attach Tests",
+      "port": 9229,
+      "smartStep": true,
+      "sourceMaps": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Extension + Server",
+      "configurations": ["Extension", "Attach server"]
+    }
+  ]
 }

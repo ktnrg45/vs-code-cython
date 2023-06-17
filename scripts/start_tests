@@ -1,0 +1,3 @@
+#!/bin/bash
+
+cd cyright/packages/pyright-internal && node --inspect-brk node_modules/jest/bin/jest.js --runInBand --config src/tests-cython/jest.config.js
