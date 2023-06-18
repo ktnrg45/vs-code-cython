@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.3.6]
+
+- Fix memory view dimensions parsing
+- Allow cython import completions for module in from import statements
+
 ## [0.3.5]
 
 - Allow membernodes for template annotations
