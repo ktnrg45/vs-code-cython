@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.3.7]
+
+- Parse chained declarations with assignments correctly
+- Add basestring and unicode typings
+
 ## [0.3.6]
 
 - Fix memory view dimensions parsing
