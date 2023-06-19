@@ -100,6 +100,13 @@ if [ ! "$cyright_branch" = "$CYRIGHT_BRANCH" ]; then
     echo "Cyright branch is not on $CYRIGHT_BRANCH"
     exit 1
 fi
+cyright_commit=$(git rev-parse HEAD)
+cyright_commit_in_origin=$(git branch -r --contains $cyright_commit)
+if [ ! "$cyright_commit_in_origin" ]; then
+    echo "Cyright HEAD is not in origin. Push changes to origin."
+    exit 1
+fi
+
 
 check_git_changed
 CYRIGHT_REMOTE=$(git config --get remote.origin.url)
