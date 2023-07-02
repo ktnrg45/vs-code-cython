@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.3.8]
+
+- Allow 'except *' at the end of function
+- Fix memoryview parsing
+- Fix error with pointers in sizeof
+- Check for valid expressions after with gil/nogil
+- Allow gil and nogil to be in any position in a 'with' context block
+
 ## [0.3.7]
 
 - Parse chained declarations with assignments correctly
