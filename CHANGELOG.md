@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.3.9]
+
+- Revert parse sizeof with pointer argument
+
 ## [0.3.8]
 
 - Allow 'except *' at the end of function
