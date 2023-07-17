@@ -24,6 +24,18 @@ function autoincrement_tag() {
     echo "$major.$minor.$patch"
 }
 
+function cmp_versions() {
+    IFS='.' read -ra v1 <<< "$1"
+    IFS='.' read -ra v2 <<< "$2"
+
+    for ((i=0; i<${#v1[@]}; i++)); do
+        if [[ ${v1[$i]} -gt ${v2[$i]} ]]; then
+            echo $1
+            return
+        fi
+    done
+}
+
 REPLY=""
 printf "\nRun Tests(Y)?\n>> "
 read
@@ -55,8 +67,10 @@ if [ ! -z "$existing_tag" ]; then
     echo "Tag: $NEW_TAG already exists"
     exit 1
 fi
-if [ "$NEW_TAG" \< "$latest" ]; then
-    echo "New tag: $NEW_TAG < latest tag: $latest"
+
+greater_tag=$(cmp_versions $NEW_TAG $latest)
+if [ "$greater_tag" = "$latest" ]; then
+    echo "Error: New tag: $NEW_TAG < latest tag: $latest"
     exit 1
 fi
 
