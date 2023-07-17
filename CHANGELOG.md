@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.3.10]
+
+- Automatically import matching .pxd from includePaths
+- Fix sizeof arg parsing
+
 ## [0.3.9]
 
 - Revert parse sizeof with pointer argument
