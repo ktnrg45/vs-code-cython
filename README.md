@@ -13,7 +13,7 @@
 - Syntax highlighting
 - Static syntax checking for C and CPP syntax
 - Go to definitions
-- Import resolver for .pyx and .pxd files
+- Import resolver for .pxd files
 
 # About
 
@@ -26,10 +26,18 @@ This extension uses the configured Python interpreter/venv path from the `VS Cod
 
 # Limitations
 
+- Only cimports that are `.pxd` files will be recognized
+- The 'Pure Python' syntax is not supported
+- Directives will not be considered. This is because directives can be set in multiple places such as in a `setup.py` file and cannot be analyzed statically
+- Pyright options are not supported. i.e. `pyrightconfig.json`
+
+# Possible features
 These features would be nice to have but are not implemented.
 
-- In-depth type analysis
+- Strict type analysis
 - C headers analysis / inline C code analysis
+- Typings file generation
+- Python interaction highlighting
 
 # FAQ
 
@@ -55,14 +63,24 @@ Install normally through the extensions tab.
 
   ```
   git submodule update --init --recursive
-
   ```
 
 - Install `npm`
-- Run:
+
+### Building source
+- To build extension run:
   ```
-  make install
+  npm install --include=dev
+  npm run build:extension
   ```
+### Building vsix package
+
+Alternatively, a vsix package can be built:
+```
+npm install vsce
+npx vsce package
+code --install-extension vscode-cython-<version>.vsix
+```
 
 # Development
 
@@ -70,19 +88,29 @@ Install normally through the extensions tab.
 
 To setup development environment:
 
-- Follow the instructions for `Installing from source` (repo can be cloned anywhere on filesystem)
+- Follow the instructions for `Installing from source` (repo can be cloned anywhere on filesystem) (build step can be skipped).
 
 - Install development npm packages:
 
   ```
-  make dev
+  npm install --include=dev
   ```
 
 - To rebuild lang-server and syntax file, Run:
 
   ```
-  make build
+  npm run build:extension:dev
   ```
+
+### Debugging
+
+Run the `Watch extension` task. This can be done in vscode by clicking `view->Command Palette` and then selecting `Tasks: Run Build Task` and then selecting `Watch extension`.
+
+This will build the language server and the source code will be watched for changes
+
+You can then run the launch task: `Extension` which will launch the extension in debug mode.
+
+After the extension has been launched run the launch task `Attach server`, which will attach the debugger to the extension.
 
 ## Syntax highlighting changes
 
@@ -93,7 +121,7 @@ The syntax file will need to be re-generated for VS Code to see changes.
 To re-generate syntax file run:
 
 ```
-make syntax
+npm run build:syntax
 ```
 
 ## Language Server (Cyright) Development

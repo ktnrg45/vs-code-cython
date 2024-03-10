@@ -95,7 +95,9 @@
     "clean": "cd cyright && lerna run --no-bail --stream clean",
     "install:all": "cd cyright && npm install && lerna exec --no-bail npm install",
     "update:all": "cd cyright && node ./build/updateDeps.js",
-    "build:extension:dev": "make syntax && cd cyright && cd packages/vscode-pyright && npm run webpack",
+    "build:syntax": "shx mkdir -p syntaxes && syntaxdev build-plist --in grammars/cython.syntax.yaml --out syntaxes/cython.tmLanguage",
+    "build:extension": "npm run build:syntax && npm run webpack",
+    "build:extension:dev": "npm run build:syntax && npm run webpack-dev",
     "build:cli:dev": "cd cyright && cd packages/pyright && npm run webpack",
     "watch:extension": "cd cyright && cd packages/vscode-pyright && npm run webpack-dev",
     "check": "cd cyright && npm run check:syncpack && npm run check:eslint && npm run check:prettier && npm run check:lockindent",
@@ -109,15 +111,16 @@
     "prepackage": "cd cyright/packages/vscode-pyright && node ./build/renamePackage.js pyright",
     "package": "vsce package",
     "postpackage": "cd cyright/packages/vscode-pyright && node ./build/renamePackage.js vscode-pyright",
-    "vscode:prepublish": "make syntax && cd cyright/packages/vscode-pyright && npm run clean && webpack --mode production --progress",
-    "webpack": "cd cyright/packages/vscode-pyright && webpack --mode development --progress",
-    "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && webpack --mode development --watch --progress",
+    "vscode:prepublish": "npm run build:extension",
+    "webpack": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode production --progress",
+    "webpack-dev": "cd cyright/packages/vscode-pyright && npm run clean && npx webpack --mode development --watch --progress",
     "test": "cd cyright/packages/pyright-internal && npm run test:cython",
     "test:compile": "cd cyright/packages/pyright-internal && npm run test:cython:compile"
   },
   "devDependencies": {
     "js-yaml": "^4.1.0",
     "lerna": "^5.3.0",
+    "shx": "^0.3.4",
     "syntaxdev": "^0.1.3"
   }
 }
