@@ -5,7 +5,26 @@
       "name": "Extension",
       "type": "extensionHost",
       "request": "launch",
-      "args": ["--extensionDevelopmentPath=${workspaceFolder}"]
+      "runtimeExecutable": "${workspaceRoot}/cyright/packages/vscode-pyright/dist/extension.js",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "smartStep": true,
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
+      ]
+    },
+    {
+      "name": "Extension (Watch)",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceRoot}/cyright/packages/vscode-pyright/dist/extension.js",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+      "smartStep": true,
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
+      ],
+      "preLaunchTask": "Watch extension"
     },
     {
       "name": "Attach server",
@@ -16,8 +35,8 @@
       "sourceMaps": true,
       "outFiles": [
         "${workspaceRoot}/cyright/packages/vscode-pyright/dist/**/*.js"
-      ],
-      "preLaunchTask": "sleep"
+      ]
+      //"preLaunchTask": "sleep"
     },
     {
       "type": "node",

@@ -58,7 +58,7 @@ repository:
               ) | (
                 as | cimport
               ) | (
-                cdef | cpdef | ctypedef | DEF
+                cdef | cpdef | ctypedef | DEF | IF | ELSE | ELIF
               ) | (
                 const | unsigned | signed | new | readonly | inline | public | cppclass | packed(?=\s+struct)
               )

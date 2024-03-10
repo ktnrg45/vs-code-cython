@@ -38,6 +38,16 @@
         "scopeName": "source.cython"
       }
     ],
+    "semanticTokenScopes": [
+      {
+        "language": "cython",
+        "scopes": {
+          "keyword.modification": [
+            "storage.type.declaration.cython"
+          ]
+        }
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "Cython",

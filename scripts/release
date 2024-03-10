@@ -4,7 +4,7 @@ MASTER='master'
 DEV='dev'
 
 CYRIGHT='cyright'
-CYRIGHT_BRANCH='cython'
+CYRIGHT_BRANCH='cythonV2'
 
 WORKDIR=${PWD}
 
@@ -174,10 +174,22 @@ EOF
 
 echo "Review Changelog: ${CHANGELOG_FILE}.tmp"
 printf "\nContinue(Y)?\n>> "
+REPLY=""
 read
 if [ ! "$REPLY" = "y" ] && [ ! "$REPLY" = "Y" ]; then
     echo "Exiting"
     exit 1
+fi
+
+PRERELEASE=''
+printf "\nPre-release(Y)?\n>> "
+REPLY=""
+read
+if [ ! "$REPLY" = "y" ] && [ ! "$REPLY" = "Y" ]; then
+    echo "Releasing as pre-release"
+    PRERELEASE="--prerelease"
+else
+    echo "Releasing as full release"
 fi
 
 REMOTE=$(git config --get remote.origin.url | sed 's/\.git//g')
@@ -187,10 +199,11 @@ printf "\n\nRelease Log:\n\n%s\n" "$GH_CHANGELOG"
 check_git_changed 1
 sed -i "s/\"version\":.*/\"version\": \"$NEW_TAG\",/g" package.json
 mv ${CHANGELOG_FILE}.tmp $CHANGELOG_FILE
+npm i --package-lock-only # Update package-lock.json
 git commit -am "$NEW_TAG"
 git push origin $DEV
 git checkout $MASTER
 git rebase $DEV
 git push origin $MASTER
 git checkout $DEV
-gh release create $NEW_TAG -t $NEW_TAG -n "$GH_CHANGELOG" --target $MASTER
+gh release create $NEW_TAG -t $NEW_TAG -n "$GH_CHANGELOG" --target $MASTER $PRERELEASE
