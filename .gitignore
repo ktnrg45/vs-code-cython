@@ -353,3 +353,4 @@ MigrationBackup/
 
 syntaxes
 .vscode/
+*.vsix
