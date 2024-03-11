@@ -1,5 +1,12 @@
 # Change Log
 
+## [1.0.0]
+
+- Rewrite LSP
+- Improve parsing
+- Prevent recursions when parsing
+- Improve type evaluation
+
 ## [0.3.10]
 
 - Automatically import matching .pxd from includePaths
