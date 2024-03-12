@@ -97,7 +97,7 @@ if [ ! "$branch" = "$DEV" ]; then
     exit 1
 fi
 
-LAST_TAG=$(gh release list | grep "Latest" |  awk '{print $1;}')
+LAST_TAG=$(gh release list | head -n 1 |  awk '{print $1;}')
 if [ -z "$LAST_TAG" ]; then
     echo "Error: No Latest Release found"
     exit 1
