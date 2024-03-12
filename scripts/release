@@ -185,7 +185,7 @@ PRERELEASE=''
 printf "\nPre-release(Y)?\n>> "
 REPLY=""
 read
-if [ "$REPLY" = "y" ] && [ "$REPLY" = "Y" ]; then
+if [ "$REPLY" = "y" ] || [ "$REPLY" = "Y" ]; then
     echo "Releasing as pre-release"
     PRERELEASE="--prerelease"
 else
