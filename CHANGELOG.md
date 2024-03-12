@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.0.1]
+
+- Add cython lsp and vscode version to startup message
+- Allow address operator for a cpp reference
+- Allow forward references for cpp template args
+- Fix parsing trailing const in c function
+- Fix parsing decorated in cdef suite
+- Fix parsing cpdef in cdef suite
+
 ## [1.0.0]
 
 - Rewrite LSP
