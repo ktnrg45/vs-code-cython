@@ -14,6 +14,7 @@
 - Static syntax checking for C and CPP syntax
 - Go to definitions
 - Import resolver for .pxd files
+- Typestub generation (.pyi) for .pyx files (Experimental)
 
 # About
 
@@ -23,6 +24,29 @@ Cython is a superset of Python with it's own C-styled syntax mixed with Python s
 The static checker is based on [Pyright](https://github.com/microsoft/pyright) and will only support Cython/Python syntax version 3.0 and above.
 
 This extension uses the configured Python interpreter/venv path from the `VS Code Python` extension.
+
+# Commands
+
+
+## cython.compileCurrentFile
+
+Runs `cythonize` to build current/selected .pyx file inplace.
+Useful for smaller files that can be built without setuptools or other build system.
+
+### Availability
+- Command Palette
+- Explorer context menu
+
+## cython.createTypeStub
+*Experimental.*
+
+Create a typestub (.pyi) file for current/selected .pyx file.
+These files can be used within Python for static typing.
+
+### Availability
+- Command Palette
+- Explorer context menu
+
 
 # Limitations
 
@@ -36,7 +60,6 @@ These features would be nice to have but are not implemented.
 
 - Strict type analysis
 - C headers analysis / inline C code analysis
-- Typings file generation
 - Python interaction highlighting
 
 # FAQ

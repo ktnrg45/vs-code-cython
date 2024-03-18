@@ -71,7 +71,12 @@
       },
       {
         "command": "cython.compileCurrentFile",
-        "title": "Compile Current File",
+        "title": "Compile Cython File",
+        "category": "Cython"
+      },
+      {
+        "command": "cython.createCythonTypeStub",
+        "title": "Create Cython TypeStub for Python",
         "category": "Cython"
       }
     ],
@@ -80,13 +85,31 @@
         {
           "command": "cython.compileCurrentFile",
           "when": "editorLangId == cython && resourceExtname == .pyx"
+        },
+        {
+          "command": "cython.createCythonTypeStub",
+          "when": "editorLangId == cython && resourceExtname == .pyx"
         }
-      ]
+      ],
+      "explorer/context": [
+        {
+          "command": "cython.compileCurrentFile",
+          "group": "Cython",
+          "when": "resourceLangId == cython && resourceExtname == .pyx"
+        },
+        {
+          "command": "cython.createCythonTypeStub",
+          "group": "Cython",
+          "when": "resourceLangId == cython && resourceExtname == .pyx"
+        }
+    ]
     }
   },
   "activationEvents": [
     "onLanguage:cython",
-    "onCommand:cython.restartserver"
+    "onCommand:cython.restartserver",
+    "onCommand:cython.compileCurrentFile",
+    "onCommand:cython.createCythonTypeStub"
   ],
   "main": "./cyright/packages/vscode-pyright/dist/extension.js",
   "scripts": {
