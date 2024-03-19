@@ -1,5 +1,18 @@
 # Change Log
 
+## [1.0.2]
+
+- Add createTypeStub command
+- Transform basic c types to python on member access
+- Update built ins
+- Handle nogil/with gil after except
+- Handle one line extern declaration
+- Add cython createtypestub
+- Fix parsing address node with member expression
+- Fix parsing cast with member expression
+- Fix nested cppclass member assigning type parameters unnecessarily
+- Allow python parameter annotation in cdef function
+
 ## [1.0.1]
 
 - Add cython lsp and vscode version to startup message
