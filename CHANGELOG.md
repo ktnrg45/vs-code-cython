@@ -1,5 +1,15 @@
 # Change Log
 
+## [1.0.3]
+
+- Fix background typestub task error
+- Write inline cpdef functions in matching .pxd for typestub
+- Fix parsing cpdef inline function
+- Write cpdef enums declared in matching .pxd in typestub
+- Transform cpp types to python
+- Fix error where matching pxd import node has no parent
+- Transform cython types for python assignments
+
 ## [1.0.2]
 
 - Add createTypeStub command
