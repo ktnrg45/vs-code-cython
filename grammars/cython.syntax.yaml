@@ -55,7 +55,7 @@ repository:
           (?x)
             \b(?:
               (
-                nogil | gil | include | extern | extern from | noexcept | namespace
+                nogil | gil | include | extern | extern from | noexcept | namespace | noexcept nogil
               ) | (
                 as | cimport
               ) | (
